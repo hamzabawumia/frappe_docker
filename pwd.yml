@@ -2,7 +2,7 @@ version: "3"
 
 services:
   backend:
-    image: frappe/erpnext:v15.66.1
+    image: frappe/erpnext:v15.67.0
     networks:
       - frappe_network
     deploy:
@@ -11,6 +11,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
+      - ./apps:/home/frappe/frappe-bench/apps  # Added for development access
     environment:
       DB_HOST: db
       DB_PORT: "3306"
@@ -18,7 +19,7 @@ services:
       MARIADB_ROOT_PASSWORD: admin
 
   configurator:
-    image: frappe/erpnext:v15.66.1
+    image: frappe/erpnext:v15.67.0
     networks:
       - frappe_network
     deploy:
@@ -45,9 +46,10 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
+      - ./apps:/home/frappe/frappe-bench/apps  # Added for development access
 
   create-site:
-    image: frappe/erpnext:v15.66.1
+    image: frappe/erpnext:v15.67.0
     networks:
       - frappe_network
     deploy:
@@ -56,6 +58,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
+      - ./apps:/home/frappe/frappe-bench/apps  # Added for development access
     entrypoint:
       - bash
       - -c
@@ -102,7 +105,7 @@ services:
       - db-data:/var/lib/mysql
 
   frontend:
-    image: frappe/erpnext:v15.66.1
+    image: frappe/erpnext:v15.67.0
     networks:
       - frappe_network
     depends_on:
@@ -124,11 +127,12 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
+      - ./apps:/home/frappe/frappe-bench/apps  # Added for development access
     ports:
       - "8080:8080"
 
   queue-long:
-    image: frappe/erpnext:v15.66.1
+    image: frappe/erpnext:v15.67.0
     networks:
       - frappe_network
     deploy:
@@ -142,9 +146,10 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
+      - ./apps:/home/frappe/frappe-bench/apps  # Added for development access
 
   queue-short:
-    image: frappe/erpnext:v15.66.1
+    image: frappe/erpnext:v15.67.0
     networks:
       - frappe_network
     deploy:
@@ -158,6 +163,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
+      - ./apps:/home/frappe/frappe-bench/apps  # Added for development access
 
   redis-queue:
     image: redis:6.2-alpine
@@ -178,7 +184,7 @@ services:
         condition: on-failure
 
   scheduler:
-    image: frappe/erpnext:v15.66.1
+    image: frappe/erpnext:v15.67.0
     networks:
       - frappe_network
     deploy:
@@ -190,9 +196,10 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
+      - ./apps:/home/frappe/frappe-bench/apps  # Added for development access
 
   websocket:
-    image: frappe/erpnext:v15.66.1
+    image: frappe/erpnext:v15.67.0
     networks:
       - frappe_network
     deploy:
@@ -204,6 +211,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
+      - ./apps:/home/frappe/frappe-bench/apps  # Added for development access
 
 volumes:
   db-data:
