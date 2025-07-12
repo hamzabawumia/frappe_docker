@@ -11,7 +11,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - ./apps:/home/frappe/frappe-bench/apps  # Added for development access
+      - apps_folder:/home/frappe/frappe-bench/apps  # Named volume for apps
     environment:
       DB_HOST: db
       DB_PORT: "3306"
@@ -46,7 +46,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - ./apps:/home/frappe/frappe-bench/apps  # Added for development access
+      - apps_folder:/home/frappe/frappe-bench/apps  # Named volume for apps
 
   create-site:
     image: frappe/erpnext:v15.67.0
@@ -58,7 +58,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - ./apps:/home/frappe/frappe-bench/apps  # Added for development access
+      - apps_folder:/home/frappe/frappe-bench/apps  # Named volume for apps
     entrypoint:
       - bash
       - -c
@@ -127,7 +127,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - ./apps:/home/frappe/frappe-bench/apps  # Added for development access
+      - apps_folder:/home/frappe/frappe-bench/apps  # Named volume for apps
     ports:
       - "8080:8080"
 
@@ -146,7 +146,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - ./apps:/home/frappe/frappe-bench/apps  # Added for development access
+      - apps_folder:/home/frappe/frappe-bench/apps  # Named volume for apps
 
   queue-short:
     image: frappe/erpnext:v15.67.0
@@ -163,7 +163,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - ./apps:/home/frappe/frappe-bench/apps  # Added for development access
+      - apps_folder:/home/frappe/frappe-bench/apps  # Named volume for apps
 
   redis-queue:
     image: redis:6.2-alpine
@@ -196,7 +196,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - ./apps:/home/frappe/frappe-bench/apps  # Added for development access
+      - apps_folder:/home/frappe/frappe-bench/apps  # Named volume for apps
 
   websocket:
     image: frappe/erpnext:v15.67.0
@@ -211,13 +211,14 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - ./apps:/home/frappe/frappe-bench/apps  # Added for development access
+      - apps_folder:/home/frappe/frappe-bench/apps  # Named volume for apps
 
 volumes:
   db-data:
   redis-queue-data:
   sites:
   logs:
+  apps_folder:  # Added named volume for apps
 
 networks:
   frappe_network:
