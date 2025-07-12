@@ -11,7 +11,8 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps_folder:/home/frappe/frappe-bench/apps  # Named volume for apps
+      - apps_folder:/home/frappe/frappe-bench/apps  # Use a named volume otherwise it will interfere with the installation.
+      
     environment:
       DB_HOST: db
       DB_PORT: "3306"
