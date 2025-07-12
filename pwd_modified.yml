@@ -1,6 +1,17 @@
 version: "3"
 
 services:
+  init-dirs:
+    image: alpine:latest
+    command: |
+      sh -c "
+        mkdir -p /data/db-data /data/redis-queue-data /data/sites /data/logs /data/apps_folder &&
+        echo 'Directories created successfully'
+      "
+    volumes:
+      - ${PWD}:/data
+    restart: "no"
+
   backend:
     image: frappe/erpnext:v15.67.0
     networks:
@@ -11,7 +22,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps_folder:/home/frappe/frappe-bench/apps  # Use a named volume otherwise it will interfere with the installation.
+      - apps_folder:/home/frappe/frappe-bench/apps
       
     environment:
       DB_HOST: db
@@ -47,7 +58,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps_folder:/home/frappe/frappe-bench/apps  # Named volume for apps
+      - apps_folder:/home/frappe/frappe-bench/apps
 
   create-site:
     image: frappe/erpnext:v15.67.0
@@ -59,7 +70,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps_folder:/home/frappe/frappe-bench/apps  # Named volume for apps
+      - apps_folder:/home/frappe/frappe-bench/apps
     entrypoint:
       - bash
       - -c
@@ -128,7 +139,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps_folder:/home/frappe/frappe-bench/apps  # Named volume for apps
+      - apps_folder:/home/frappe/frappe-bench/apps
     ports:
       - "8080:8080"
 
@@ -147,7 +158,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps_folder:/home/frappe/frappe-bench/apps  # Named volume for apps
+      - apps_folder:/home/frappe/frappe-bench/apps
 
   queue-short:
     image: frappe/erpnext:v15.67.0
@@ -164,7 +175,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps_folder:/home/frappe/frappe-bench/apps  # Named volume for apps
+      - apps_folder:/home/frappe/frappe-bench/apps
 
   redis-queue:
     image: redis:6.2-alpine
@@ -197,7 +208,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps_folder:/home/frappe/frappe-bench/apps  # Named volume for apps
+      - apps_folder:/home/frappe/frappe-bench/apps
 
   websocket:
     image: frappe/erpnext:v15.67.0
@@ -212,14 +223,39 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps_folder:/home/frappe/frappe-bench/apps  # Named volume for apps
+      - apps_folder:/home/frappe/frappe-bench/apps
 
 volumes:
   db-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/db-data
   redis-queue-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/redis-queue-data
   sites:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/sites
   logs:
-  apps_folder:  # Added named volume for apps
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/logs
+  apps_folder:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/apps_folder
 
 networks:
   frappe_network:
