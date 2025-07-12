@@ -1,17 +1,10 @@
+# create the required directories manually before running docker-compose:
+
+mkdir -p db-data redis-queue-data sites logs apps_folder
+
 version: "3"
 
 services:
-  init-dirs:
-    image: alpine:latest
-    command: |
-      sh -c "
-        mkdir -p /data/db-data /data/redis-queue-data /data/sites /data/logs /data/apps_folder &&
-        echo 'Directories created successfully'
-      "
-    volumes:
-      - .:/data
-    restart: "no"
-
   backend:
     image: frappe/erpnext:v15.67.0
     networks:
@@ -231,31 +224,31 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ./db-data
+      device: $PWD/db-data
   redis-queue-data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ./redis-queue-data
+      device: $PWD/redis-queue-data
   sites:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ./sites
+      device: $PWD/sites
   logs:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ./logs
+      device: $PWD/logs
   apps_folder:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ./apps_folder
+      device: $PWD/apps_folder
 
 networks:
   frappe_network:
