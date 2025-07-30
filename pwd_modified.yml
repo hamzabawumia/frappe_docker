@@ -133,8 +133,9 @@ services:
       - apps:/home/frappe/frappe-bench/apps
       - nginx-conf:/etc/nginx/conf.d:ro
     ports:
-      - "8090:8080"
-      - "8091:8081"
+      - "8090:8080" # Default site (frontend)
+      - "8091:8081" # Site 1 (site1.local)
+      - "8092:8082"  # Site 2 (site2.local)
 
   queue-long:
     image: frappe/erpnext:v15.67.0
