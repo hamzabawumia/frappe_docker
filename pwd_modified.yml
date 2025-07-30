@@ -1,5 +1,5 @@
 # Ensure to create the required directories before you run docker compose up
-#  mkdir -p db-data redis-queue-data sites logs apps
+#  mkdir -p db-data redis-queue-data sites logs apps nginx-conf
 
 version: "3"
 
